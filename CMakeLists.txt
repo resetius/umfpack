@@ -2,13 +2,6 @@ project(umfpack)
 
 cmake_minimum_required(VERSION 3.20)
 
-add_definitions(-DDINT -DNBLAS)
-include_directories(
-    AMD/Source 
-    AMD/Include 
-	UMFPACK/Source 
-    UMFPACK/Include 
-    UFconfig)
 set (SRC
 	UMFPACK/Source/umf_multicompile.c 
 	UMFPACK/Source/umfpack_global.c 
@@ -109,3 +102,11 @@ add_library(umfpack SHARED ${SRC})
 else ()
 add_library(umfpack ${SRC})
 endif ()
+target_compile_options(umfpack PRIVATE -DDINT -DNBLAS)
+target_include_directories(umfpack PUBLIC
+    AMD/Source 
+    AMD/Include 
+	UMFPACK/Source 
+    UMFPACK/Include 
+    UFconfig)
+
