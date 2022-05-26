@@ -1,6 +1,9 @@
 project(umfpack)
 
 cmake_minimum_required(VERSION 3.20)
+pkg_check_modules(BLAS blas)
+#pkg_check_modules(BLAS openblas)
+#pkg_check_modules(BLAS blas-atlas)
 
 set (SRC
 	UMFPACK/Source/umf_multicompile.c 
@@ -102,7 +105,13 @@ add_library(umfpack SHARED ${SRC})
 else ()
 add_library(umfpack ${SRC})
 endif ()
+if (BLAS_FOUND)
+target_compile_options(umfpack PRIVATE -DDINT)
+target_link_directories(umfpack PUBLIC ${BLAS_STATIC_LIBRARY_DIRS})
+target_link_libraries(umfpack PUBLIC ${BLAS_STATIC_LIBRARIES})
+else ()
 target_compile_options(umfpack PRIVATE -DDINT -DNBLAS)
+endif ()
 target_include_directories(umfpack PUBLIC
     AMD/Source 
     AMD/Include 
