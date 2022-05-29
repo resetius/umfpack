@@ -1,9 +1,6 @@
 project(umfpack)
 
 cmake_minimum_required(VERSION 3.20)
-pkg_check_modules(BLAS blas)
-#pkg_check_modules(BLAS openblas)
-#pkg_check_modules(BLAS blas-atlas)
 
 set (SRC
 	UMFPACK/Source/umf_multicompile.c 
@@ -115,7 +112,7 @@ endif ()
 target_include_directories(umfpack PUBLIC
     AMD/Source 
     AMD/Include 
-	UMFPACK/Source 
+    UMFPACK/Source 
     UMFPACK/Include 
     UFconfig)
 
